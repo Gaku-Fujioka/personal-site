@@ -83,9 +83,12 @@
           return data;
         } });
         const optional = { required: false };
+        // Decap's pinned auth client compares the popup origin to base_url.
+        // Keep /api in auth_endpoint so that the origin comparison succeeds.
+        const authBase = local ? null : new URL(settings.auth);
         const config = {
           load_config_file: false,
-          backend: local ? { name: 'git-gateway' } : { name: 'github', repo: settings.repo, branch: settings.branch, base_url: settings.auth, auth_endpoint: 'auth', squash_merges: true, open_authoring: false },
+          backend: local ? { name: 'git-gateway' } : { name: 'github', repo: settings.repo, branch: settings.branch, base_url: authBase.origin, auth_endpoint: `${authBase.pathname.replace(/\/+$/, '')}/auth`.replace(/^\/+/, ''), squash_merges: true, open_authoring: false },
           ...(local ? { local_backend: { url: 'http://127.0.0.1:8081/api/v1' } } : { publish_mode: 'editorial_workflow' }),
           show_preview_links: false,
           media_folder: 'media', public_folder: 'media', locale: 'ja',
