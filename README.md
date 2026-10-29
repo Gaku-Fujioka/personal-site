@@ -30,7 +30,7 @@ Web開発に取り組む中で制作した作品と、その背景や学びを�
 | [Home](https://gaku-fujioka.vercel.app/) | 自己紹介・代表作品・最新のJournal |
 | [About](https://gaku-fujioka.vercel.app/about/) | これまでの経験・サークル活動・使用技術 |
 | [Projects](https://gaku-fujioka.vercel.app/projects/) | 制作の背景・主な機能・担当内容・画面紹介 |
-| [Journal](https://gaku-fujioka.vercel.app/journal/) | 日々のメモや出かけた記録。現在は準備中 |
+| [Journal](https://gaku-fujioka.vercel.app/journal/) | 日々のメモや出かけた記録 |
 
 ## 掲載している作品
 
@@ -112,7 +112,7 @@ docs/                 運用手順・仕様書
 
 `main`へのpushでVercelが自動デプロイします。ビルド時に`pnpm build`と`pnpm check`を実行し、`dist/`を配信します。canonicalとOG画像のURLは、Vercelの本番URLから生成します。
 
-Journalは記事0件で公開しています。非公開の記事保存先・GitHub認証・記事更新からの自動ビルドを接続しています。接続設定と記事の書き方は [Journalの初回接続](docs/journal-setup.md) を参照してください。
+Journalの記事は非公開リポジトリで管理し、公開済みの記事をサイトへ反映します。GitHub認証・記事更新からの自動ビルドを接続しています。接続設定と記事の書き方は [Journalの初回接続](docs/journal-setup.md) を参照してください。
 
 ## クレジット
 

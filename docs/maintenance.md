@@ -65,9 +65,9 @@ URL未設定の項目は `null` にします。Homeの未設定SNSは非表示�
 
 ## 本番CMSの接続
 
-サイトは記事0件で公開中です。認証用のVercel Functionsと記事の非公開保存先を用意しています。画面上の登録値と操作手順は [Journalの初回接続](journal-setup.md) を参照してください。
+Journalは非公開リポジトリから公開済みの記事と参照画像を取り込んで表示します。認証用のVercel Functionsと記事の非公開保存先を用意しています。画面上の登録値と操作手順は [Journalの初回接続](journal-setup.md) を参照してください。
 
-2026-10-29に本番の接続設定を完了しました。`JOURNAL_SOURCE=github` で非公開記事を取得するビルド、記事リポジトリのPublish JournalワークフローからDeploy Hook経由での本番ビルド、管理画面の有効化、GitHubへのログイン開始を確認済みです。本人による実際のログイン・記事保存・公開操作は初回確認が必要です。
+2026-10-29に本番の接続設定を完了しました。`JOURNAL_SOURCE=github` での非公開記事の取得、記事リポジトリのPublish JournalワークフローからDeploy Hook経由での本番ビルド、本人のログイン・記事作成・公開、記事本文・Journal一覧・Homeへの反映を確認済みです。
 
 1. 本人用の**非公開**記事リポジトリ `Gaku-Fujioka/personal-site-journal` の `main` に、`posts/` と `media/` を用意しています。サイトのコードリポジトリとは分けます。
 2. GitHubのOAuthアプリを登録し、本人と記事リポジトリへのアクセスを設定します。認証は `api/auth.js` と `api/callback.js`、共通処理は `server/cms-oauth.mjs` です。

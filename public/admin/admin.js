@@ -80,6 +80,9 @@
           const slug = data.get('slug');
           if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug || '') || ['tags', 'index'].includes(slug)) throw new Error('URL識別子は半角英小文字・数字・ハイフンで指定してください。');
           if (entry.get('path') && entry.get('path') !== `posts/${slug}.md`) throw new Error('作成済み記事のURL識別子は変更しないでください。');
+          if (data.get('cover') && (!String(data.get('coverAlt') ?? '').trim() || !String(data.get('coverCaption') ?? '').trim())) {
+            throw new Error('カバー画像を使う場合は「カバー画像の内容」と「カバー画像の短い説明」を入力してから保存してください。');
+          }
           return data;
         } });
         const optional = { required: false };
@@ -104,8 +107,8 @@
               { name: 'description', label: '概要（省略時は本文冒頭を使用）', widget: 'text', ...optional },
               { name: 'tags', label: 'タグ', widget: 'select', multiple: true, options: [{ label: '備忘録', value: 'memo' }, { label: 'イベント', value: 'events' }, { label: '旅行', value: 'travel' }], ...optional },
               { name: 'cover', label: 'カバー写真', widget: 'image', allow_multiple: false, ...optional },
-              { name: 'coverAlt', label: 'カバー写真の内容（写真がある場合）', widget: 'string', ...optional },
-              { name: 'coverCaption', label: 'カバー写真の短い説明（写真がある場合）', widget: 'string', ...optional },
+              { name: 'coverAlt', label: 'カバー画像の内容（画像を使う場合は必須）', hint: '画像に何が写っているかを記入します。カバー画像を使わない場合のみ空欄で構いません。', widget: 'string', ...optional },
+              { name: 'coverCaption', label: 'カバー画像の短い説明（画像を使う場合は必須）', hint: '画像の下に表示する説明です。カバー画像を使わない場合のみ空欄で構いません。', widget: 'string', ...optional },
               { name: 'body', label: '本文', widget: 'richtext', modes: ['rich_text'], buttons: ['bold', 'italic', 'link', 'heading-two', 'heading-three', 'quote', 'bulleted-list', 'numbered-list'], editor_components: ['journal-photo'], sanitize_preview: true },
             ],
           }],
