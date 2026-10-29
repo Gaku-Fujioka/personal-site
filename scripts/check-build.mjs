@@ -27,8 +27,7 @@ for (const file of pages) {
   const title = html.match(/<title>(.*?)<\/title>/)[1];
   assert.ok(!titles.has(title), `${route}: duplicate title`); titles.add(title);
   assert.doesNotMatch(html, /href="(?:#|)"|target="_blank"|startViewTransition/);
-  // Only the explicitly requested 3D experiment may use canvas. Regular pages stay static HTML.
-  if (route !== '/room/') assert.doesNotMatch(html, /<canvas/);
+  assert.doesNotMatch(html, /<canvas/);
   assert.match(html, /og:image" content="[^\"]*\/og\/site.png"/);
   for (const image of html.matchAll(/<img\b[^>]*>/g)) for (const attribute of ['alt', 'width', 'height']) assert.match(image[0], new RegExp(`\\b${attribute}="`));
   for (const link of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {

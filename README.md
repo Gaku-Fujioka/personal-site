@@ -16,7 +16,7 @@ Node.js 22.12.0以上とpnpmを使用します。初回は `pnpm install --froze
 | `pnpm journal:stage 記事のslug` | CMSで保存した1記事をローカル表示確認用にコピー |
 | `pnpm branding` | 共有画像とPNGファビコンを元のSVGから再生成 |
 | `pnpm images:optimize` | プロフィール写真・作品画像を元のPNGから軽量WebPへ再生成 |
-| `pnpm icons:sync` | Skill Icons・Shields.ioのSVGを取得してローカル保存（初回・更新時のみネット接続） |
+| `pnpm icons:sync` | Skill Icons・SNSロゴのSVGを取得してローカル保存（初回・更新時のみネット接続） |
 | `pnpm test` | 記事データ・画像処理・未公開データ分離のテスト |
 | `pnpm check` | build後のHTML・見出し・画像altと寸法・内部リンクを検証 |
 
@@ -77,7 +77,7 @@ scripts/check-build.mjs               build結果の静的な確認
 
 プロフィール写真と作品画像の元のPNGは `src/assets/images/` に保管します。`pnpm images:optimize` で `public/images/` にWebPを生成します。プロフィール写真は幅384px、作品画面は幅1280pxで、縦横比を維持します。元画像は公開フォルダに置かず、配信するのはWebPのみです。差し替え後はデータファイルのwidth・heightを生成画像の実寸に合わせてください。
 
-技術一覧と作品の技術タグには[Skill Icons](https://github.com/tandpfun/skill-icons)のロゴと技術名を表示します。GitHub・X・Qiitaのリンクには[Shields.io](https://shields.io/badges/static-badge)のロゴ入りバッジを使います。SVGは `public/icons/` に保存し、ビルドや閲覧時の外部通信は不要です。追加・再取得は `scripts/sync-brand-assets.mjs` の定義を編集して `pnpm icons:sync` を実行します。生成された対応表は `src/data/brand-assets.json`、Skill IconsのMITライセンスは `public/icons/skills/LICENSE.txt` に保存しています。技術の経験区分は引き続き `src/data/profile.ts` で編集します。
+技術一覧と作品の技術タグには[Skill Icons](https://github.com/tandpfun/skill-icons)のロゴと技術名を表示します。GitHub・X・Qiitaのリンクは、[Shields.io](https://shields.io/badges/static-badge)経由で取得したロゴとHTMLのサービス名を並べます。HomeではURLが設定されたSNSだけを表示し、枠やバッジ背景は付けません。SVGは `public/icons/` に保存し、ビルドや閲覧時の外部通信は不要です。追加・再取得は `scripts/sync-brand-assets.mjs` の定義を編集して `pnpm icons:sync` を実行します。生成された対応表は `src/data/brand-assets.json`、Skill IconsのMITライセンスは `public/icons/skills/LICENSE.txt` に保存しています。技術の経験区分は引き続き `src/data/profile.ts` で編集します。
 
 未提供の写真・作品画像・URLは `null` のままにします。顔はGの仮表示、作品は図形と「画像準備中」、未設定URLは「準備中」の非リンクです。空hrefや `#` を入れないでください。本人・作品の実画像は適切な大きさにしたWebP等を `public/images/` に置き、実寸を指定します。円形／16:9の切り抜きも確認してください。Journal写真は以下の取り込み時に自動で最適化します。
 
@@ -136,60 +136,4 @@ Decapのローカルファイルモードは本番の下書き→公開フロー
 
 commit / push / デプロイ / ドメイン取得は別途依頼を受けて行います。ローカル表示の完成と、本番CMS接続・公開の完了は区別します。
 
-## 3Dモードの実験（2026-10-20）
-
-実験用ブランチは `feat/3d-portfolio-room`。Homeの「3Dモード」から [/room/](http://localhost:4321/room/) へ移動できます。既存の起動方法・通常ページはそのままです。創作した展示空間であり、本人の実際の自室を再現したものではありません。
-
-- デスクのモニター：プロフィールとSNS。文字入力欄は操作体験用で、送信・保存しません。
-- 壁のポスター：いえぴた・ここいこ。押すと説明を開き、既存Projectsへ移動できます。
-- ノート：Journalの公開記事。未投稿なら準備中の表示です。
-- 下部の操作で部屋全体／デスク／作品／ノートを切り替え、拡大縮小・回転・リセットができます。全体表示では余白のドラッグでも見回せます。
-- キーボード：Tabで操作へ移動、Enter／Spaceでボタン実行。部屋自体にフォーカスがあるときは矢印で回転、Homeキーでリセット。展示の説明はEscapeで閉じます。動きを減らす設定では視点切替のアニメーションを止めます。
-- スマホは部屋全体を縮小し、操作は2段に配置。細かな展示は視点切替・拡大で見られ、説明ダイアログと部屋の案内リンクから通常ページも読めます。
-
-部屋部分の標準表示はCSS 3Dで、展示の文字・ボタン・入力は本物のHTMLです。ページ先頭には、本人の追加依頼に基づく **HTML-in-Canvas + WebGL2のGPU実験室** を設けました。3Dモデル・有料サービス・新規ライブラリ・外部サービスからのデータ取得は使っていません。プロフィール・作品は既存データ、Journalは公開記事から読みます。
-
-### APIの効果を体験する
-
-```powershell
-pnpm astro dev --background
-pnpm canvas:open
-```
-
-2つ目のコマンドは、実験フラグ付きのChromeを `.journal/canvas-browser/` の専用プロファイルで開きます。普段のブラウザ設定・フラグは変更しません。Chromeの既定パスは `C:\Program Files\Google\Chrome\Application\chrome.exe`。異なる場所にある対応ブラウザを使う場合は、PowerShellで `$env:CANVAS_TEST_BROWSER = '実際の実行ファイルの絶対パス'` を設定してから実行してください。
-
-1. GPU実験室に「APIでGPU描画中」と表示されることを確認します。対応時は自動で開始します。
-2. 画面内の文章を入力・色を変更・星のボタンをクリックします。元のHTMLが変わったときだけ、HTMLをGPUテクスチャへ再転送します。
-3. 「ほどく」で同じHTMLの画面が40枚に分かれ、奥行きを持って浮かびます。分割中は鑑賞用で入力は無効です。「触る」で元の画面と操作位置へ戻ります。
-4. 「動きを止める」で浮遊・光の移動を止めます。`prefers-reduced-motion` では最初から静止します。画面外・非表示タブでは描画ループを停止します。
-5. 「元のHTML」と「API + GPU」で同じDOMを移動し、入力内容・色・クリック数を保ったまま比較します。
-
-GPU版は `texElementSubImage2D()`（旧試験版用に `texElementImage2D()`）でHTMLをGPUテクスチャへ直接転送し、WebGLのシェーダーで光・浮遊・分割を描きます。操作できる状態では同じ投影行列を `updateElementGeometry()` に渡し、入力・クリックの位置を合わせます。HTMLの画像化ライブラリや透明な操作用HTMLの重ね合わせは使っていません。ブラウザがAPI未対応なら「APIが無効」と明記し、通常HTMLを表示します。API版に見せかけた代替効果は表示しません。
-
-Chrome 155は `getElementImageDefaultSize()` が未搭載のため、CSS寸法とdevicePixelRatioから転送サイズを求めます。初期化の失敗・GPU接続喪失時は元のHTMLへ復帰し、入力を保持します。
-
-部屋の下の「HTML-in-Canvasの実験について」は、最初に作った別の比較実験です。4つの展示を `drawElementImage()` とpaintイベントで2D Canvasへ描き、CSS 3D空間に配置します。先頭のGPU実験室とは描画方式が異なります。描画が完了しない場合は3.5秒で元のHTML表示へ戻します。
-
-APIはChromiumの実験段階です。[WICGの最新説明](https://github.com/WICG/html-in-canvas)を確認してください。手動なら対応ブラウザで `chrome://flags/#canvas-draw-element` と `chrome://flags/#enable-experimental-web-platform-features` を有効にして再起動します。今回のテスト・起動コマンドは専用プロセスへフラグを渡し、普段使いの設定を変更しません。フラグなしでも通常HTMLとCSS 3Dの部屋は利用できます。
-
-| ファイル | 編集内容 |
-| --- | --- |
-| `src/pages/room.astro` | 家具・展示の配置、展示説明、通常ページへの導線 |
-| `src/components/room/RoomBox.astro` | 机などの立体を作る3面の部品 |
-| `src/styles/room.css` | 部屋の色・形・スマホ表示・動き |
-| `src/lib/room-camera.mjs` | 各展示を見る視点・表示サイズ |
-| `src/scripts/room.ts` | ドラッグ・キーボード・説明ダイアログ・Canvas切替 |
-| `src/components/room/CanvasLab.astro` | GPU実験室の本物のHTML入力欄・操作・案内 |
-| `src/scripts/canvas-lab.ts` | APIでの転送・WebGLシェーダー・操作位置合わせ・失敗時の復帰 |
-| `src/lib/canvas-lab-math.mjs` | GPU描画とHTML操作で共有する行列・40枚のメッシュ |
-| `src/styles/canvas-lab.css` | 実験室の見た目とスマホ表示 |
-| `scripts/open-canvas-browser.mjs` | 個人用設定を変えずに実験用Chromeを起動 |
-| `scripts/check-canvas-browser.mjs` | 専用ヘッドレスChromeでAPI・入力・復帰を検証 |
-
-### GPU実験室の検証と制限
-
-- `pnpm check:canvas`：Windowsの専用Chrome 155（実験フラグ付き）をヘッドレスで起動し、実際の `texElementSubImage2D()` 転送・スクリーンショット・ポインター操作とキーボード入力を検証します。新規依存は不要です。スクリーンショットはGit対象外の `.journal/browser-qa/` に保存します。テスト専用の一時プロファイルは終了後に削除します。
-- 確認済み：GPU上の入力・入力欄の選択・Tab移動・色変更・クリック、アクセシビリティツリーの入力欄、40分割と復帰、通常HTMLとの比較で値を保持、375pxの表示とクリック、動きを減らす設定、GPU接続喪失時に元HTMLへ復帰、フラグなしでAPI未使用と明示する動作。
-- **確認した制限**：Chrome 155で本文のドラッグ選択は動作しませんでした。本文を選択・コピーするときは「元のHTML」を使用します。入力欄の文字選択は動作しました。未実装・非対応と一般化せず、この検証環境での結果として扱います。
-- 未確認：実スマートフォン、他のブラウザ／バージョン、スクリーンリーダーの読み上げ。アクセシビリティツリーの確認を読み上げ確認とは扱いません。最初の部屋内4面の2D Canvas切替は引き続き未確認です。
-- `pnpm build` と `pnpm check` で既存ページを含めて確認します。`pnpm test` は6件：既存Journalの検証、部屋の画面内配置、GPU投影とHTML操作座標の一致、40枚のメッシュが元画面を一度ずつ覆うこと。
+3Dモードは2026-10-29の本人依頼で削除しました。変更前の実装はコミット `2192b81` に保存されています。

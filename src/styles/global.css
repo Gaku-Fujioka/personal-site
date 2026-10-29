@@ -47,17 +47,15 @@ ul { padding: 0; list-style: none; }
 .avatar-note { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
 .sparkle { position: absolute; right: -8px; top: -5px; color: var(--accent); font-size: 32px; line-height: 1; background: var(--background); border-radius: 50%; }
 .profile-hero h1 { font-size: 40px; letter-spacing: -.035em; }
-.room-entry { display: flex; align-items: center; justify-content: center; gap: 10px; width: fit-content; min-height: 44px; margin: 20px auto 0; padding: 5px 16px; border: 1px solid var(--control-border); border-radius: 8px; font-size: 12px; text-decoration: none; background: var(--surface); }
-.room-entry:hover { background: var(--accent-soft); }
-.room-entry-label { color: var(--text-muted); font-size: 10px; }
 .japanese-name { font-size: 18px; margin-top: 3px; letter-spacing: .1em; }
 .profile-role { margin-top: 12px; font-weight: 500; }
 .profile-introduction { max-width: 640px; margin: 12px auto 0; color: var(--text-muted); text-wrap: pretty; }
-.social-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.social-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin-top: 20px; }
+.social-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 2px; color: var(--text); font-size: 14px; font-weight: 500; text-decoration: none; }
+.social-link:hover { color: var(--accent); text-decoration: underline; }
+.resource-icon { width: 20px; height: 20px; flex-shrink: 0; }
 .resource-pill { display: inline-flex; gap: 12px; align-items: center; justify-content: center; min-height: 44px; padding: 6px 18px; border: 1px solid var(--control-border); border-radius: 999px; background: var(--surface); font-size: 14px; text-decoration: none; }
 a.resource-pill:hover { background: var(--accent-soft); }
-.resource-pill.has-badge { padding: 7px 12px; gap: 10px; }
-.resource-badge { flex-shrink: 0; height: 28px; width: auto; border-radius: 4px; }
 .is-pending { color: var(--text); border-color: var(--divider); }
 .pending-label { font-size: 11px; color: var(--text-muted); }
 .external-arrow { color: var(--accent); }
@@ -184,8 +182,6 @@ a.resource-pill:hover { background: var(--accent-soft); }
   .profile-role { font-size: 14px; margin-top: 10px; }
   .profile-introduction { font-size: 14px; margin-top: 14px; }
   .social-list { gap: 8px; margin-top: 18px; }
-  .social-list .resource-pill { padding-inline: 12px; gap: 8px; font-size: 12px; }
-  .social-list .pending-label { font-size: 10px; }
   .section-heading h2 { font-size: 24px; }
   .project-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 20px; }
   .project-symbol { width: 80px; height: 66px; }
@@ -224,7 +220,6 @@ a.resource-pill:hover { background: var(--accent-soft); }
   .header-inner { flex-direction: column; gap: 0; padding-block: 8px 4px; }
   .nav-list { gap: 16px; }
   .profile-hero h1 { font-size: 30px; }
-  .social-list .resource-pill { padding-inline: 10px; gap: 6px; }
   .image-pending { right: 8px; bottom: 8px; font-size: 10px; }
 }
 

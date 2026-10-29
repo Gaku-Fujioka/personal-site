@@ -1,38 +1,26 @@
 {
   "skills": {
-    "JavaScript": "/icons/skills/js.svg",
-    "CSS": "/icons/skills/css.svg",
-    "TypeScript": "/icons/skills/ts.svg",
-    "HTML": "/icons/skills/html.svg",
-    "React": "/icons/skills/react.svg",
-    "Vercel": "/icons/skills/vercel.svg",
-    "Supabase": "/icons/skills/supabase.svg",
-    "Next.js": "/icons/skills/nextjs.svg",
-    "Figma": "/icons/skills/figma.svg",
     "Astro": "/icons/skills/astro.svg",
-    "Docker": "/icons/skills/docker.svg",
-    "Git": "/icons/skills/git.svg",
-    "VS Code": "/icons/skills/vscode.svg",
     "C": "/icons/skills/c.svg",
-    "Ruby": "/icons/skills/ruby.svg",
+    "C++": "/icons/skills/cpp.svg",
+    "CSS": "/icons/skills/css.svg",
+    "Docker": "/icons/skills/docker.svg",
+    "Figma": "/icons/skills/figma.svg",
+    "Git": "/icons/skills/git.svg",
     "GitHub": "/icons/skills/github.svg",
-    "C++": "/icons/skills/cpp.svg"
+    "HTML": "/icons/skills/html.svg",
+    "JavaScript": "/icons/skills/js.svg",
+    "Next.js": "/icons/skills/nextjs.svg",
+    "React": "/icons/skills/react.svg",
+    "Ruby": "/icons/skills/ruby.svg",
+    "Supabase": "/icons/skills/supabase.svg",
+    "TypeScript": "/icons/skills/ts.svg",
+    "Vercel": "/icons/skills/vercel.svg",
+    "VS Code": "/icons/skills/vscode.svg"
   },
-  "badges": {
-    "X": {
-      "src": "/icons/badges/x.svg",
-      "width": 52.25,
-      "height": 28
-    },
-    "Qiita": {
-      "src": "/icons/badges/qiita.svg",
-      "width": 84.25,
-      "height": 28
-    },
-    "GitHub": {
-      "src": "/icons/badges/github.svg",
-      "width": 95.5,
-      "height": 28
-    }
+  "socials": {
+    "GitHub": "/icons/socials/github.svg",
+    "Qiita": "/icons/socials/qiita.svg",
+    "X": "/icons/socials/x.svg"
   }
 }

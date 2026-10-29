@@ -17,9 +17,7 @@
     "images:optimize": "node scripts/optimize-images.mjs",
     "icons:sync": "node scripts/sync-brand-assets.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node scripts/check-build.mjs",
-    "canvas:open": "node scripts/open-canvas-browser.mjs",
-    "check:canvas": "node scripts/check-canvas-browser.mjs"
+    "check": "node scripts/check-build.mjs"
   },
   "dependencies": {
     "astro": "^7.3.8"

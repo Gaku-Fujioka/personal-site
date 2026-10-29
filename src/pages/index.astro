@@ -9,6 +9,7 @@ import JournalEntry from '../components/JournalEntry.astro';
 import { getJournalPosts } from '../lib/journal';
 const posts = (await getJournalPosts()).slice(0, 2);
 const qiita = profile.socials.find((social) => social.name === 'Qiita');
+const socialLinks = profile.socials.filter((social) => social.url);
 ---
 
 <BaseLayout title="Gaku Fujioka | 藤岡楽空のポートフォリオ" description="電気通信大学で情報・セキュリティを学ぶ藤岡楽空のポートフォリオ。自己紹介と、いえぴた・ここいこの制作経験を紹介します。">
@@ -20,10 +21,9 @@ const qiita = profile.socials.find((social) => social.name === 'Qiita');
       <p class="profile-role">{profile.role}</p>
       <p class="profile-introduction">{profile.introduction}</p>
       <ul class="social-list" aria-label="外部プロフィール">
-        {profile.socials.map((social) => <li><ResourceLink label={social.name} url={social.url} /></li>)}
+        {socialLinks.map((social) => <li><ResourceLink label={social.name} url={social.url} variant="social" /></li>)}
       </ul>
       <a class="text-link about-link" href="/about/">もっと知る<span aria-hidden="true">→</span></a>
-      <a class="room-entry" href="/room/"><span aria-hidden="true">◇</span> 3Dモード <span class="room-entry-label">小さな部屋を探索する</span><span aria-hidden="true">↗</span></a>
     </section>
     <section class="home-projects" aria-labelledby="projects-title">
       <div class="section-heading centered"><h2 id="projects-title">Projects</h2><p>つくっているもの</p></div>

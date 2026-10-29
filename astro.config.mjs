@@ -10,12 +10,4 @@ if (existsSync(new URL('.env', import.meta.url))) loadEnvFile(new URL('.env', im
 export default defineConfig({
   site: process.env.SITE_URL || undefined,
   integrations: [journalIntegration()],
-  vite: {
-    server: {
-      watch: {
-        // Browser caches contain HTML and locked files; they are not site source changes.
-        ignored: ['**/.journal/canvas-browser/**', '**/.journal/browser-qa/**'],
-      },
-    },
-  },
 });
