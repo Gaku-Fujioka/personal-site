@@ -1,0 +1,28 @@
+name: Publish Journal
+
+on:
+  push:
+    branches: [main]
+    paths: ['posts/**', 'media/**']
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: journal-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Rebuild the public site
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK is not configured."
+            exit 1
+          fi
+          curl --fail --silent --show-error --retry 2 --request POST "$VERCEL_DEPLOY_HOOK" > /dev/null

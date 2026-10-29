@@ -7,7 +7,7 @@
     if (!response.ok) throw new Error('管理画面の設定を読み込めませんでした。');
     const settings = await response.json();
     if (!settings.configured) {
-      status.textContent = '記事管理は準備中です。公開前に、本人用の保存先とログイン設定を行ってください。';
+      status.textContent = '記事管理は準備中です。本人用の保存先とログイン設定が完了すると利用できます。';
       return;
     }
     const local = settings.mode === 'local';
@@ -85,7 +85,7 @@
         const optional = { required: false };
         const config = {
           load_config_file: false,
-          backend: local ? { name: 'git-gateway' } : { name: 'github', repo: settings.repo, branch: settings.branch, base_url: settings.auth, auth_endpoint: 'auth', squash_merges: true },
+          backend: local ? { name: 'git-gateway' } : { name: 'github', repo: settings.repo, branch: settings.branch, base_url: settings.auth, auth_endpoint: 'auth', squash_merges: true, open_authoring: false },
           ...(local ? { local_backend: { url: 'http://127.0.0.1:8081/api/v1' } } : { publish_mode: 'editorial_workflow' }),
           show_preview_links: false,
           media_folder: 'media', public_folder: 'media', locale: 'ja',

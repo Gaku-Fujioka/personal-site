@@ -82,7 +82,7 @@ pnpm astro dev --background
 | `pnpm astro dev stop` | 開発サーバーの停止 |
 | `pnpm build` | `dist/` に静的サイトを生成 |
 | `pnpm preview` | ビルド済みサイトを確認 |
-| `pnpm test` | 記事データの検証・画像処理・未公開データ分離のテスト |
+| `pnpm test` | 記事データ・画像処理・未公開データ分離・CMS認証のテスト |
 | `pnpm check` | ビルド後のHTML・見出し・画像altと寸法・内部リンクを検証 |
 
 ## ファイル構成
@@ -97,6 +97,8 @@ src/
 ├── lib/              記事の日付表示・並び順など
 └── styles/           共通CSS
 public/               配信用画像・アイコン・CMSのスクリプト
+api/                  Vercel Functions（CMSのGitHub認証）
+server/               OAuthのstate・PKCE・本人確認
 scripts/              画像最適化・記事の準備・検証
 tests/                記事処理のテスト
 docs/                 運用手順・仕様書
@@ -110,7 +112,7 @@ docs/                 運用手順・仕様書
 
 `main`へのpushでVercelが自動デプロイします。ビルド時に`pnpm build`と`pnpm check`を実行し、`dist/`を配信します。canonicalとOG画像のURLは、Vercelの本番URLから生成します。
 
-Journalは記事0件で公開しています。本番での記事編集・公開には、非公開記事リポジトリ・GitHub認証・記事更新からのデプロイ連携の設定が必要です。
+Journalは記事0件で公開しています。非公開の記事保存先とGitHub認証用の実装を用意し、[初回接続](docs/journal-setup.md)で認証情報と記事更新からのデプロイ連携を設定します。
 
 ## クレジット
 
