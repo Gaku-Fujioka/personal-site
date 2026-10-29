@@ -12,7 +12,7 @@ const qiita = profile.socials.find((social) => social.name === 'Qiita');
 const socialLinks = profile.socials.filter((social) => social.url);
 ---
 
-<BaseLayout title="Gaku Fujioka | 藤岡楽空のポートフォリオ" description="電気通信大学で情報・セキュリティを学ぶ藤岡楽空のポートフォリオ。自己紹介と、いえぴた・ここいこの制作経験を紹介します。">
+<BaseLayout title="Gaku Fujioka | 藤岡楽空のポートフォリオ" description="電気通信大学で情報・セキュリティを学ぶ藤岡楽空のポートフォリオ。自己紹介と、ひといき・いえぴた！・いこポケの制作経験を紹介します。">
   <div class="container home-content">
     <section class="profile-hero" aria-labelledby="profile-title">
       <Avatar />
@@ -33,7 +33,7 @@ const socialLinks = profile.socials.filter((social) => social.url);
     <section class="home-journal" aria-labelledby="journal-title">
       <div class="section-heading"><h2 id="journal-title">Journal</h2><p>日々のメモと、出かけた記録。</p></div>
       {posts.length ? <div class="latest-journal">{posts.map(post => <JournalEntry post={post} heading="h3" />)}</div> : <p class="home-journal-empty">Journalを準備中です。</p>}
-      <div class="section-more"><a class="text-link" href="/journal/">Journalをすべて見る<span aria-hidden="true">→</span></a></div>
+      <div class="section-more"><a class="text-link" href="/journal/">Journalを見る<span aria-hidden="true">→</span></a></div>
     </section>
     <section class="learning" aria-labelledby="learning-title">
       <div class="section-heading"><h2 id="learning-title">Learning</h2></div>

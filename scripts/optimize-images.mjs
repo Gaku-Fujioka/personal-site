@@ -6,12 +6,14 @@ const root = new URL('../', import.meta.url);
 const images = [
   { path: 'profile', width: 384, quality: 84 },
   ...['home', 'start', 'match'].map(name => ({ path: `projects/iepita/${name}`, width: 1280, quality: 88 })),
+  { path: 'projects/hitoiki/break-confirm', width: 390, quality: 88 },
+  ...['home', 'candidates', 'outing'].map(name => ({ path: `projects/ikopoke/${name}`, extension: 'jpg', width: 780, quality: 88 })),
 ];
 
 let originalTotal = 0;
 let optimizedTotal = 0;
 for (const image of images) {
-  const source = new URL(`src/assets/images/${image.path}.png`, root);
+  const source = new URL(`src/assets/images/${image.path}.${image.extension ?? 'png'}`, root);
   const destination = new URL(`public/images/${image.path}.webp`, root);
   await fs.mkdir(new URL('./', destination), { recursive: true });
   const original = await fs.stat(source);

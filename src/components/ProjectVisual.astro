@@ -2,15 +2,22 @@
 import type { Project } from '../data/projects';
 interface Props { project: Project; }
 const { project } = Astro.props;
+const previewScreenshots = project.previewScreenshots ? project.screenshots : undefined;
 ---
 <div class:list={['project-visual', `visual-${project.id}`]}>
-  {project.image ? (
+  {previewScreenshots?.length ? (
+    <div class="project-screen-preview">
+      {previewScreenshots.map(({ image }) => <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />)}
+    </div>
+  ) : project.image ? (
     <img src={project.image.src} alt={project.image.alt} width={project.image.width} height={project.image.height} loading="lazy" />
   ) : (
     <div class="visual-placeholder">
       <span class="visual-orbit orbit-one" aria-hidden="true"></span>
       <span class="visual-orbit orbit-two" aria-hidden="true"></span>
-      {project.id === 'iepita' ? (
+      {project.logo ? (
+        <img class="project-logo" src={project.logo.src} alt={project.logo.alt} width={project.logo.width} height={project.logo.height} loading="lazy" />
+      ) : project.id === 'iepita' ? (
         <svg class="project-symbol" viewBox="0 0 120 100" fill="none" aria-hidden="true">
           <path d="M17 47 60 12l43 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M28 40v47h64V40" fill="var(--surface)" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
@@ -28,7 +35,7 @@ const { project } = Astro.props;
       )}
       <span class="visual-name">{project.name}</span>
       <span class="visual-label" aria-hidden="true">{project.label}</span>
-      <span class="image-pending">画像準備中</span>
+      {!project.logo && <span class="image-pending">画像準備中</span>}
     </div>
   )}
 </div>

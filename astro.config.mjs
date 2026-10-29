@@ -8,6 +8,6 @@ if (existsSync(new URL('.env', import.meta.url))) loadEnvFile(new URL('.env', im
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL || undefined,
+  site: process.env.SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined),
   integrations: [journalIntegration()],
 });

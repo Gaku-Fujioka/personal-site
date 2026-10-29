@@ -27,7 +27,7 @@ AGENTS.mdに従い、開発サーバーはバックグラウンドで管理し�
 ```text
 src/pages/index.astro                 Home（代表作品→Journal最新2件→Learning）
 src/pages/about.astro                 About（PCは2列、スマホは1列）
-src/pages/projects.astro              2作品を同じページで紹介
+src/pages/projects.astro              ひといき・いえぴた！・いこポケの3作品を紹介
 src/pages/journal/index.astro         Journal一覧
 src/pages/journal/[slug].astro        記事本文
 src/pages/journal/tags/[tag].astro     タグ別一覧（JavaScript不要）
@@ -75,7 +75,11 @@ scripts/check-build.mjs               build結果の静的な確認
 「いえぴた！」の機能・制作期間・担当・コンテスト名・公開URLは、[リポジトリのREADME](https://github.com/Gaku-Fujioka/iepita/blob/main/README.md)をもとに2026-10-29に更新しました（参照blob: `2a30d6b9e43d799905e025e166becc7d56f5dc19`）。本人の制作を通した学びは既存の文章を引き継いでいます。
 画面画像の元データは同リポジトリの `docs/screenshots/iepita-{home,start,match}.png` です。`src/assets/images/projects/iepita/` に保存し、公開用には軽量WebPを生成しています。実物件の掲載や問い合わせの送信を行う運用サービスとしては紹介せず、サンプルデータで動くプロトタイプと明記しています。
 
-プロフィール写真と作品画像の元のPNGは `src/assets/images/` に保管します。`pnpm images:optimize` で `public/images/` にWebPを生成します。プロフィール写真は幅384px、作品画面は幅1280pxで、縦横比を維持します。元画像は公開フォルダに置かず、配信するのはWebPのみです。差し替え後はデータファイルのwidth・heightを生成画像の実寸に合わせてください。
+「ひといき」は[JPHACKSのリポジトリ](https://github.com/jphacks/tkb_2603)のREADME（参照blob: `2973b8e99d3c80b9b97ee5fe5fa73a2d87543867`）とpackage.jsonをもとに2026-10-29に追加しました。担当はGaku-Fujiokaによる公開PR #1・#13・#17・#18・#19・#23を参照しています。開発人数・期間は本人からの追加情報があるまで記載しません。拡張アイコンは `public/icon/128.png`、終了確認の実装画面は `docs/design/break-close/after-short.png` が出典です。同リポジトリのほかの参照デザイン画像は、実画面として転載していません。
+
+「いこポケ」は旧名称「ここいこ」から2026-10-29に表記を更新しました。提供された `Gaku-Fujioka/ikopoke` は非公開リポジトリです。READMEはスターターの内容が残っているため、package.json・アプリのmetadata・manifest・機能の構成・公開手順の記録を参照しました。ロゴは同リポジトリの `public/brand/ikopoke.svg` が出典です。本人の最新の方針により、いこポケは家族や親しい人向けの非公開アプリとして紹介します。アプリのURLは掲載せず、アプリ・GitHubとも「非公開」の非リンク表示にします。作品説明と提供された画面画像は掲載し、旧アンカー `#kokoiko` は新しい紹介への入口として維持します。
+
+プロフィール写真と作品画面の元のPNG・JPEGは `src/assets/images/` に保管します。`pnpm images:optimize` で `public/images/` にWebPを生成します。プロフィール写真は幅384px、いえぴたの画面は幅1280px、ひといきの終了確認画面は幅390px、いこポケのスマートフォン画面は幅780pxで、縦横比を維持します。元の画面画像は公開フォルダに置かず、配信するのはWebPのみです。小さな拡張アイコンはPNGのまま保存します。差し替え後はデータファイルのwidth・heightを生成画像の実寸に合わせてください。
 
 技術一覧と作品の技術タグには[Skill Icons](https://github.com/tandpfun/skill-icons)のロゴと技術名を表示します。GitHub・X・Qiitaのリンクは、[Shields.io](https://shields.io/badges/static-badge)経由で取得したロゴとHTMLのサービス名を並べます。HomeではURLが設定されたSNSだけを表示し、枠やバッジ背景は付けません。SVGは `public/icons/` に保存し、ビルドや閲覧時の外部通信は不要です。追加・再取得は `scripts/sync-brand-assets.mjs` の定義を編集して `pnpm icons:sync` を実行します。生成された対応表は `src/data/brand-assets.json`、Skill IconsのMITライセンスは `public/icons/skills/LICENSE.txt` に保存しています。技術の経験区分は引き続き `src/data/profile.ts` で編集します。
 
@@ -95,7 +99,15 @@ Decapのローカルファイルモードは本番の下書き→公開フロー
 
 `.journal/editor` は下書き用、`.journal/source` は明示的に選択したローカル表示確認用、`.journal/published` と `public/journal-media` は生成結果です。生成結果は直接編集しません。CMS設定は開発用と本番用を分けて生成し、トークンを出力しません。異なる記事データを使う検証用ビルド中は、同じ生成データを使う開発サーバーを停止してください。
 
-## 本番の記事管理を接続する手順（公開前TODO）
+## Vercelでの公開
+
+初回は独自ドメインを取得せず、Vercelの `*.vercel.app` URLを使います。GitHubの `Gaku-Fujioka/personal-site` を個人サイト専用のVercelプロジェクトに接続し、Production Branchは `main` にします。リポジトリは非公開のまま、生成したサイトを一般公開できます。
+
+`vercel.json` でAstro・出力先 `dist/` と、`pnpm build && pnpm check` を指定しています。canonical・OG URL・共有画像URLはVercelの本番URLから生成し、`SITE_URL` があればそちらを優先します。CLIアップロードでは `.vercelignore` でローカル下書き・環境ファイル・画像の原本を除外します。公開用画像は `public/images/` にあります。
+
+初回公開は `JOURNAL_SOURCE=empty`（既定値）の記事0件で行います。記事管理のGitHub認証・非公開記事取得・記事公開後の自動反映は、以下の別途設定が必要です。
+
+## 本番の記事管理を接続する手順（記事投稿の開始前TODO）
 
 ここは未接続です。外部アカウント・リポジトリ・ドメインは、この実装では作成していません。
 
@@ -137,3 +149,5 @@ Decapのローカルファイルモードは本番の下書き→公開フロー
 commit / push / デプロイ / ドメイン取得は別途依頼を受けて行います。ローカル表示の完成と、本番CMS接続・公開の完了は区別します。
 
 3Dモードは2026-10-29の本人依頼で削除しました。変更前の実装はコミット `2192b81` に保存されています。
+
+いこポケのホーム・行きたい候補・おでかけ計画の3画面は、本人提供の `ikopoke1.jpg`・`ikopoke2.jpg`・`ikopoke3.jpg` を使用しています。元画像は `src/assets/images/projects/ikopoke/`、公開用WebPは `public/images/projects/ikopoke/` に保存します。Homeの作品カードとProjectsの概要では3画面を並べ、詳細には説明付きの画像と拡大リンクを表示します。元画像のマスクも保持しています。

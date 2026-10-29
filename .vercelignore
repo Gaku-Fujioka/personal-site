@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.journal/
+.env
+.env.*
+public/journal-media/
+src/assets/images/
+docs/

@@ -5,7 +5,7 @@ import ResourceLink from '../components/ResourceLink.astro';
 import TechnologyLabel from '../components/TechnologyLabel.astro';
 import { projects } from '../data/projects';
 ---
-<BaseLayout title="Projects | Gaku Fujioka — 藤岡楽空" description="藤岡楽空が企画・制作に取り組んだ「いえぴた」と、個人開発中の「ここいこ」。制作の目的、役割、使用技術、現在の状況を紹介します。">
+<BaseLayout title="Projects | Gaku Fujioka — 藤岡楽空" description="JPHACKSで開発した拡張機能「ひといき」、空き家探しの「いえぴた！」、個人開発中の「いこポケ」。藤岡楽空の制作の目的、担当、使用技術を紹介します。">
   <div class="container inner-page projects-page">
     <header class="page-heading"><h1>Projects</h1><p>つくっているもの</p></header>
     <nav class="project-index" aria-label="作品一覧">
@@ -13,6 +13,7 @@ import { projects } from '../data/projects';
     </nav>
     {projects.map((project, index) => (
       <article class="project-detail" id={project.id} aria-labelledby={`${project.id}-title`}>
+        {project.legacyId && <span id={project.legacyId} aria-hidden="true"></span>}
         <div class="project-overview">
           <ProjectVisual project={project} />
           <div class="project-overview-copy">
@@ -42,7 +43,7 @@ import { projects } from '../data/projects';
             <h3 id={`${project.id}-screenshots`}>アプリの画面</h3>
             <div class="project-screenshot-grid">
               {project.screenshots.map(({ image, caption }) => (
-                <figure>
+                <figure class:list={{ 'is-portrait': image.height > image.width }}>
                   <a href={image.src} aria-label={`${caption} 画面画像を拡大`}>
                     <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
                   </a>
@@ -53,8 +54,9 @@ import { projects } from '../data/projects';
           </section>
         )}
         <div class="project-resources" aria-label={`${project.name}の外部リンク`}>
-          <ResourceLink label="公開URL" url={project.publicUrl} />
-          <ResourceLink label="GitHub" url={project.githubUrl} />
+          <ResourceLink label={project.publicLabel ?? '公開URL'} url={project.appPrivate ? null : project.publicUrl} pendingLabel={project.appPrivate ? '非公開' : '準備中'} />
+          <ResourceLink label="GitHub" url={project.githubPrivate ? null : project.githubUrl} pendingLabel={project.githubPrivate ? '非公開' : '準備中'} />
+          {project.additionalLinks?.map(({ label, url }) => <ResourceLink label={label} url={url} />)}
         </div>
       </article>
     ))}

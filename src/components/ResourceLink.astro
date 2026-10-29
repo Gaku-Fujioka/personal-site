@@ -1,7 +1,7 @@
 ---
 import assets from '../data/brand-assets.json';
-interface Props { label: string; url: string | null; variant?: 'pill' | 'social'; }
-const { label, url, variant = 'pill' } = Astro.props;
+interface Props { label: string; url: string | null; variant?: 'pill' | 'social'; pendingLabel?: string; }
+const { label, url, variant = 'pill', pendingLabel = '準備中' } = Astro.props;
 const icons: Record<string, string> = assets.socials;
 const icon = icons[label];
 ---
@@ -14,6 +14,6 @@ const icon = icons[label];
 ) : (
   <span class="resource-pill is-pending">
     <span>{label}</span>
-    <span class="pending-label">準備中</span>
+    <span class="pending-label">{pendingLabel}</span>
   </span>
 )}

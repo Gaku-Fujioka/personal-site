@@ -40,13 +40,17 @@ export const profile = {
     ],
   },
   community: {
-    text: '電気通信大学の開発チーム「team411」に所属し、学内ダッシュボードの開発グループに参加しています。',
+    text: '電気通信大学の開発チーム「team411」に所属し、学内ダッシュボード「uBoard」と、電気通信大学のサークルを紹介する「UECircle」のプロジェクトに参加しています。',
     url: 'https://team411.net/',
+    projects: [
+      { name: 'uBoard', url: 'https://uboard.info/uec' },
+      { name: 'UECircle', url: 'https://www.uecircle.net/' },
+    ],
   },
-  activities: 'J:COM主催「2025年度 大学生と考えるSDGs アクション支援プロジェクト」に、2人チームで参加しました。暮らし方の診断と物件探しで空き家と人をつなぐ「いえぴた！」を企画・開発し、最終審査に進出しました。',
+  activities: 'JPHACKS 2026では、AIとの作業の区切りで休憩を提案するChrome・VS Code拡張「ひといき」をチームで開発しました。また、J:COM主催「2025年度 大学生と考えるSDGs アクション支援プロジェクト」に2人チームで参加し、空き家と人をつなぐ「いえぴた！」を企画・開発して、最終審査に進出しました。',
   skills: [
-    { category: '制作で使用経験あり', items: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Supabase', 'Vercel'] },
-    { category: '学習・制作中', items: ['Next.js', 'Astro', 'Docker'] },
+    { category: '制作で使用経験あり', items: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Supabase', 'Vercel'] },
+    { category: '学習・制作中', items: ['Astro', 'Docker'] },
     { category: 'ツール', items: ['Figma', 'Git', 'GitHub', 'VS Code'] },
     { category: '大学の授業で使用', items: ['C', 'Ruby'] },
     { category: '自主的に触れた経験', items: ['C++'] },
