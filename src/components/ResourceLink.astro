@@ -1,0 +1,18 @@
+---
+import assets from '../data/brand-assets.json';
+interface Props { label: string; url: string | null; }
+const { label, url } = Astro.props;
+const badges: Record<string, { src: string; width: number; height: number }> = assets.badges;
+const badge = badges[label];
+---
+{url ? (
+  <a class:list={['resource-pill', { 'has-badge': badge }]} href={url}>
+    {badge ? <img class="resource-badge" src={badge.src} alt={label} width={Math.ceil(badge.width)} height={badge.height} /> : label}
+    <span class="external-arrow" aria-hidden="true">↗</span>
+  </a>
+) : (
+  <span class:list={['resource-pill', 'is-pending', { 'has-badge': badge }]}>
+    {badge ? <img class="resource-badge" src={badge.src} alt={label} width={Math.ceil(badge.width)} height={badge.height} /> : <span>{label}</span>}
+    <span class="pending-label">準備中</span>
+  </span>
+)}

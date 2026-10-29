@@ -1,0 +1,12 @@
+---
+import assets from '../data/brand-assets.json';
+interface Props { name: string; compact?: boolean; }
+const { name, compact = false } = Astro.props;
+const icons: Record<string, string> = assets.skills;
+const icon = icons[name];
+const size = compact ? 18 : 32;
+---
+<span class:list={['technology-label', { 'is-compact': compact }]}>
+  {icon && <img src={icon} alt="" aria-hidden="true" width={size} height={size} loading="lazy" />}
+  <span>{name}</span>
+</span>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Avatar from '../components/Avatar.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ResourceLink from '../components/ResourceLink.astro';
+import { profile } from '../data/profile';
+import { projects } from '../data/projects';
+import JournalEntry from '../components/JournalEntry.astro';
+import { getJournalPosts } from '../lib/journal';
+const posts = (await getJournalPosts()).slice(0, 2);
+const qiita = profile.socials.find((social) => social.name === 'Qiita');
+---
+
+<BaseLayout title="Gaku Fujioka | 藤岡楽空のポートフォリオ" description="電気通信大学で情報・セキュリティを学ぶ藤岡楽空のポートフォリオ。自己紹介と、いえぴた・ここいこの制作経験を紹介します。">
+  <div class="container home-content">
+    <section class="profile-hero" aria-labelledby="profile-title">
+      <Avatar />
+      <h1 id="profile-title">{profile.name}</h1>
+      <p class="japanese-name">{profile.japaneseName}</p>
+      <p class="profile-role">{profile.role}</p>
+      <p class="profile-introduction">{profile.introduction}</p>
+      <ul class="social-list" aria-label="外部プロフィール">
+        {profile.socials.map((social) => <li><ResourceLink label={social.name} url={social.url} /></li>)}
+      </ul>
+      <a class="text-link about-link" href="/about/">もっと知る<span aria-hidden="true">→</span></a>
+      <a class="room-entry" href="/room/"><span aria-hidden="true">◇</span> 3Dモード <span class="room-entry-label">小さな部屋を探索する</span><span aria-hidden="true">↗</span></a>
+    </section>
+    <section class="home-projects" aria-labelledby="projects-title">
+      <div class="section-heading centered"><h2 id="projects-title">Projects</h2><p>つくっているもの</p></div>
+      <div class="project-grid">{projects.map((project) => <ProjectCard project={project} />)}</div>
+      <div class="section-more"><a class="text-link" href="/projects/">作品について詳しく<span aria-hidden="true">→</span></a></div>
+    </section>
+    <section class="home-journal" aria-labelledby="journal-title">
+      <div class="section-heading"><h2 id="journal-title">Journal</h2><p>日々のメモと、出かけた記録。</p></div>
+      {posts.length ? <div class="latest-journal">{posts.map(post => <JournalEntry post={post} heading="h3" />)}</div> : <p class="home-journal-empty">Journalを準備中です。</p>}
+      <div class="section-more"><a class="text-link" href="/journal/">Journalをすべて見る<span aria-hidden="true">→</span></a></div>
+    </section>
+    <section class="learning" aria-labelledby="learning-title">
+      <div class="section-heading"><h2 id="learning-title">Learning</h2></div>
+      <p>学んだことは、Qiitaに。</p>
+      {qiita?.url ? (
+        <a class="text-link" href={qiita.url}>Qiitaを見る<span aria-hidden="true">↗</span></a>
+      ) : (
+        <p class="learning-pending">Qiitaでの発信を準備中</p>
+      )}
+    </section>
+  </div>
+</BaseLayout>

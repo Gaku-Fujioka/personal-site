@@ -1,0 +1,34 @@
+---
+import type { Project } from '../data/projects';
+interface Props { project: Project; }
+const { project } = Astro.props;
+---
+<div class:list={['project-visual', `visual-${project.id}`]}>
+  {project.image ? (
+    <img src={project.image.src} alt={project.image.alt} width={project.image.width} height={project.image.height} loading="lazy" />
+  ) : (
+    <div class="visual-placeholder">
+      <span class="visual-orbit orbit-one" aria-hidden="true"></span>
+      <span class="visual-orbit orbit-two" aria-hidden="true"></span>
+      {project.id === 'iepita' ? (
+        <svg class="project-symbol" viewBox="0 0 120 100" fill="none" aria-hidden="true">
+          <path d="M17 47 60 12l43 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M28 40v47h64V40" fill="var(--surface)" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+          <path d="M51 87V63h18v24M78 18v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          <path d="M39 50h10v10H39zM71 50h10v10H71z" fill="var(--accent-soft)" stroke="currentColor" stroke-width="2" />
+        </svg>
+      ) : (
+        <svg class="project-symbol" viewBox="0 0 120 100" fill="none" aria-hidden="true">
+          <path d="m13 30 30-10 34 12 30-10v62l-30 10-34-12-30 10V30Z" fill="var(--surface)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+          <path d="M43 21v60m34-49v61" stroke="currentColor" stroke-width="2" opacity=".3" />
+          <path d="M30 64c16-23 26 27 49-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 6" />
+          <path d="M98 29c0 13-17 29-17 29S64 42 64 29a17 17 0 1 1 34 0Z" fill="var(--accent)" />
+          <circle cx="81" cy="29" r="6" fill="var(--surface)" />
+        </svg>
+      )}
+      <span class="visual-name">{project.name}</span>
+      <span class="visual-label" aria-hidden="true">{project.label}</span>
+      <span class="image-pending">画像準備中</span>
+    </div>
+  )}
+</div>

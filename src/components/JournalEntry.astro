@@ -1,0 +1,15 @@
+---
+import { journalDate, tagLabel, type JournalPost } from '../lib/journal';
+interface Props { post: JournalPost; heading?: 'h2' | 'h3'; }
+const { post, heading: Heading = 'h2' } = Astro.props;
+const { title, publishedAt, description, cover, tags } = post.data;
+---
+<article class:list={['journal-entry', { 'has-cover': cover }]}>
+  <div class="journal-entry-copy">
+    <time class="journal-date" datetime={publishedAt}>{journalDate(publishedAt)}</time>
+    <Heading><a href={`/journal/${post.id}/`}>{title}<span aria-hidden="true"> →</span></a></Heading>
+    <p>{description}</p>
+    {tags.length > 0 && <ul class="journal-tag-list" aria-label="記事のタグ">{tags.map(tag => <li><a href={`/journal/tags/${tag}/`}>{tagLabel(tag)}</a></li>)}</ul>}
+  </div>
+  {cover && <img class="journal-thumbnail" src={cover.src} srcset={cover.srcset} sizes="(max-width: 479px) calc(100vw - 40px), 144px" width={cover.width} height={cover.height} alt="" loading="lazy" />}
+</article>

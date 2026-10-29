@@ -1,0 +1,9 @@
+---
+import { getUsedTags, type JournalPost } from '../lib/journal';
+interface Props { posts: JournalPost[]; selected?: string; }
+const { posts, selected } = Astro.props;
+---
+{posts.length > 0 && <nav class="journal-filters" aria-label="記事をタグで絞り込む">
+  <a href="/journal/" aria-current={!selected ? 'page' : undefined}>すべて</a>
+  {getUsedTags(posts).map(tag => <a href={`/journal/tags/${tag.id}/`} aria-current={selected === tag.id ? 'page' : undefined}>{tag.label}</a>)}
+</nav>}

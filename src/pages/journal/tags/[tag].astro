@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import JournalEntry from '../../../components/JournalEntry.astro';
+import JournalFilters from '../../../components/JournalFilters.astro';
+import { getJournalPosts, getUsedTags } from '../../../lib/journal';
+export async function getStaticPaths() {
+  const posts = await getJournalPosts();
+  return getUsedTags(posts).map(tag => ({ params: { tag: tag.id }, props: { tag, posts } }));
+}
+const { tag, posts } = Astro.props;
+const filtered = posts.filter(post => post.data.tags.includes(tag.id));
+---
+<BaseLayout title={`${tag.label} | Journal | Gaku Fujioka`} description={`${tag.label}にまつわる藤岡楽空の記録。日々のメモと、出かけた記録。`}>
+  <div class="container inner-page journal-page">
+    <header class="page-heading"><h1>Journal</h1><p>{tag.label}の記録 <span class="result-count">{filtered.length}件</span></p></header>
+    <JournalFilters posts={posts} selected={tag.id} />
+    <div class="journal-list">{filtered.map(post => <JournalEntry post={post} />)}</div>
+  </div>
+</BaseLayout>

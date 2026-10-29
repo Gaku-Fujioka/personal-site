@@ -1,0 +1,14 @@
+---
+import { profile } from '../data/profile';
+---
+<div class="avatar">
+  {profile.photo ? (
+    <img src={profile.photo.src} alt={profile.photo.alt} width={profile.photo.width} height={profile.photo.height} />
+  ) : (
+    <div class="avatar-placeholder" role="img" aria-label="Gの仮アイコン。プロフィール写真は準備中です">
+      <span class="avatar-letter" aria-hidden="true">G</span>
+      <span class="avatar-note" aria-hidden="true">写真準備中</span>
+    </div>
+  )}
+  <span class="sparkle" aria-hidden="true">✦</span>
+</div>

@@ -1,0 +1,32 @@
+{
+  "name": "",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "journal:cms": "node scripts/start-cms.mjs",
+    "journal:prepare": "node scripts/prepare-journal.mjs",
+    "journal:stage": "node scripts/stage-journal.mjs",
+    "branding": "node scripts/generate-branding.mjs",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "icons:sync": "node scripts/sync-brand-assets.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check-build.mjs",
+    "canvas:open": "node scripts/open-canvas-browser.mjs",
+    "check:canvas": "node scripts/check-canvas-browser.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.3.8"
+  },
+  "devDependencies": {
+    "decap-server": "3.11.5",
+    "sharp": "0.35.5",
+    "yaml": "2.9.1"
+  }
+}

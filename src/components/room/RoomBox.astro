@@ -1,0 +1,11 @@
+---
+interface Props {
+  x: number; y: number; z?: number;
+  width: number; depth: number; height: number;
+  color?: string; side?: string; front?: string;
+}
+const { x, y, z = 0, width, depth, height, color = '#ddd5c8', side = '#b5aa98', front = '#c9bfae' } = Astro.props;
+---
+<div class="room-box" aria-hidden="true" style={`left:${x}px;top:${y}px;--w:${width}px;--d:${depth}px;--h:${height}px;--top:${color};--side:${side};--front:${front};transform:translateZ(${z}px)`}>
+  <div class="box-top"></div><div class="box-front"></div><div class="box-side"></div>
+</div>

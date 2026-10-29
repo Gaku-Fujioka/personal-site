@@ -1,0 +1,5 @@
+[
+  { "id": "memo", "label": "備忘録" },
+  { "id": "events", "label": "イベント" },
+  { "id": "travel", "label": "旅行" }
+]

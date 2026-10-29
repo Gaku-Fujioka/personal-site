@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectVisual from '../components/ProjectVisual.astro';
+import ResourceLink from '../components/ResourceLink.astro';
+import TechnologyLabel from '../components/TechnologyLabel.astro';
+import { projects } from '../data/projects';
+---
+<BaseLayout title="Projects | Gaku Fujioka — 藤岡楽空" description="藤岡楽空が企画・制作に取り組んだ「いえぴた」と、個人開発中の「ここいこ」。制作の目的、役割、使用技術、現在の状況を紹介します。">
+  <div class="container inner-page projects-page">
+    <header class="page-heading"><h1>Projects</h1><p>つくっているもの</p></header>
+    <nav class="project-index" aria-label="作品一覧">
+      {projects.map((project, index) => <a href={`#${project.id}`}><span class="index-number" aria-hidden="true">0{index + 1}</span>{project.name}<span aria-hidden="true">↓</span></a>)}
+    </nav>
+    {projects.map((project, index) => (
+      <article class="project-detail" id={project.id} aria-labelledby={`${project.id}-title`}>
+        <div class="project-overview">
+          <ProjectVisual project={project} />
+          <div class="project-overview-copy">
+            <p class="eyebrow">0{index + 1} / {project.label}</p>
+            <h2 id={`${project.id}-title`}>{project.name}</h2>
+            <ul class="tags" aria-label="制作状況と技術">{project.tags.map((tag) => <li><TechnologyLabel name={tag} compact /></li>)}</ul>
+            <p class="project-lead">{project.description}</p>
+            <p class="project-status">{project.status}</p>
+          </div>
+        </div>
+        <dl class="project-facts">
+          <div><dt>制作形態</dt><dd>{project.format}</dd></div>
+          <div><dt>使用技術</dt><dd>{project.technologies}</dd></div>
+          <div><dt>担当</dt><dd>{project.role}</dd></div>
+        </dl>
+        <div class="project-detail-grid">
+          <section aria-labelledby={`${project.id}-features`}>
+            <h3 id={`${project.id}-features`}>{project.featuresLabel}</h3>
+            <ul class="feature-list">{project.features.map((feature) => <li>{feature}</li>)}</ul>
+          </section>
+          <section aria-labelledby={`${project.id}-story`}><h3 id={`${project.id}-story`}>{project.story.title}</h3><p>{project.story.text}</p></section>
+          <section aria-labelledby={`${project.id}-approach`}><h3 id={`${project.id}-approach`}>大切にしていること</h3><p>{project.approach}</p></section>
+          {project.result && <section aria-labelledby={`${project.id}-result`}><h3 id={`${project.id}-result`}>コンテスト</h3><p>{project.result}</p></section>}
+        </div>
+        {project.screenshots && (
+          <section class="project-screenshots" aria-labelledby={`${project.id}-screenshots`}>
+            <h3 id={`${project.id}-screenshots`}>アプリの画面</h3>
+            <div class="project-screenshot-grid">
+              {project.screenshots.map(({ image, caption }) => (
+                <figure>
+                  <a href={image.src} aria-label={`${caption} 画面画像を拡大`}>
+                    <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+                  </a>
+                  <figcaption>{caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+        <div class="project-resources" aria-label={`${project.name}の外部リンク`}>
+          <ResourceLink label="公開URL" url={project.publicUrl} />
+          <ResourceLink label="GitHub" url={project.githubUrl} />
+        </div>
+      </article>
+    ))}
+    <div class="page-end"><a class="text-link" href="/about/">つくっている人について<span aria-hidden="true">→</span></a></div>
+  </div>
+</BaseLayout>

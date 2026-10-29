@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Avatar from '../components/Avatar.astro';
+import TechnologyLabel from '../components/TechnologyLabel.astro';
+import { profile } from '../data/profile';
+---
+<BaseLayout title="About | Gaku Fujioka — 藤岡楽空" description="電気通信大学の藤岡楽空の自己紹介。Web開発を始めたきっかけ、インターンやコミュニティでの活動、触れてきた技術を紹介します。">
+  <div class="container inner-page">
+    <header class="page-heading"><h1>About</h1><p>私について</p></header>
+    <div class="about-layout">
+      <aside class="profile-aside" aria-label="プロフィール概要">
+        <Avatar />
+        <p class="aside-name">{profile.name}</p>
+        <p>{profile.japaneseName}<span class="name-reading">{profile.reading}</span></p>
+        <div class="aside-details"><p>{profile.affiliation.map((line) => <span class="affiliation-line">{line}</span>)}</p><p>{profile.schoolYear}</p></div>
+        <a class="text-link" href="/projects/">つくっているもの<span aria-hidden="true">→</span></a>
+      </aside>
+      <div class="about-sections">
+        <section class="prose-section" aria-labelledby="introduction-title">
+          <div class="section-heading"><h2 id="introduction-title">自己紹介</h2></div>
+          {profile.biography.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+        <section class="prose-section" aria-labelledby="experience-title">
+          <div class="section-heading"><h2 id="experience-title">Experience</h2><p>インターン</p></div>
+          <div class="experience-heading"><h3>{profile.experience.name}</h3><p>{profile.experience.period}</p></div>
+          {profile.experience.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+        <section class="prose-section" aria-labelledby="community-title">
+          <div class="section-heading"><h2 id="community-title">Community</h2><p>コミュニティ</p></div>
+          <p>{profile.community.text}</p>
+          <a class="text-link" href={profile.community.url}>team411<span aria-hidden="true">↗</span></a>
+        </section>
+        <section class="prose-section" aria-labelledby="activities-title">
+          <div class="section-heading"><h2 id="activities-title">Activities</h2><p>制作・コンテスト</p></div>
+          <p>{profile.activities}</p>
+          <a class="text-link" href="/projects/#iepita">いえぴたについて<span aria-hidden="true">→</span></a>
+        </section>
+        <section class="prose-section" aria-labelledby="skills-title">
+          <div class="section-heading"><h2 id="skills-title">Skills</h2><p>触れてきた技術</p></div>
+          <dl class="skills-list">{profile.skills.map(({ category, items }) => (
+            <div><dt>{category}</dt><dd><ul class="skill-tags">{items.map((item) => <li><TechnologyLabel name={item} /></li>)}</ul></dd></div>
+          ))}</dl>
+          <p>{profile.skillsNote}</p>
+        </section>
+        <section class="prose-section" aria-labelledby="interests-title">
+          <div class="section-heading"><h2 id="interests-title">Interests</h2><p>好きなこと</p></div>
+          <p>{profile.interests}</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

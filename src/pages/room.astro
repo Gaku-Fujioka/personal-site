@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RoomBox from '../components/room/RoomBox.astro';
+import CanvasLab from '../components/room/CanvasLab.astro';
+import ResourceLink from '../components/ResourceLink.astro';
+import { profile } from '../data/profile';
+import { projects } from '../data/projects';
+import { getJournalPosts } from '../lib/journal';
+import '../styles/room.css';
+import '../styles/canvas-lab.css';
+const posts = (await getJournalPosts()).slice(0, 2);
+---
+<BaseLayout title="Gaku's room | 3Dポートフォリオ" description="机のモニター、作品のポスター、Journalのノート。藤岡楽空のポートフォリオを小さな3Dの展示空間で探索できます。">
+  <div class="room-page" data-room-app>
+    <div class="room-heading">
+      <div><p class="room-eyebrow">A SMALL SPACE FOR BIG IDEAS</p><h1>Gaku's room<span aria-hidden="true">✦</span></h1><p>つくること、学ぶこと、ときどき寄り道。</p></div>
+      <a class="room-back" href="/">通常のサイトへ <span aria-hidden="true">↗</span></a>
+    </div>
+    <CanvasLab />
+    <div class="room-workspace">
+      <div class="room-scene" data-room-scene tabindex="0" role="region" aria-label="3Dの展示室。矢印キーで向きを変更、Homeキーで全体表示。" aria-describedby="room-instructions">
+        <div class="room-scene-label"><span class="room-live-dot" aria-hidden="true"></span> GAKU'S WORKSPACE <span>01 / EXPERIMENT</span></div>
+        <div class="room-world" data-room-world>
+          <div class="room-floor" aria-hidden="true"></div>
+          <div class="room-wall room-wall-back" aria-hidden="true"><span class="wall-lettering">MAKE SOMETHING<br />THAT MATTERS.</span><span class="wall-star">✦</span></div>
+          <div class="room-wall room-wall-left" aria-hidden="true"></div>
+          <div class="room-window" aria-hidden="true"><div class="window-sky"><i></i><i></i><i></i></div><span></span></div>
+          <div class="room-rug" aria-hidden="true"><span>stay curious.</span></div>
+          <!-- Furniture is made of CSS planes, not downloaded 3D models. -->
+          <RoomBox x={65} y={145} z={132} width={410} depth={215} height={16} color="#dec39d" front="#b99972" side="#c2a27b" />
+          {[{x:80,y:160},{x:440,y:160},{x:80,y:325},{x:440,y:325}].map(p => <RoomBox {...p} width={13} depth={13} height={132} color="#abb7bb" front="#9eabad" side="#859496" />)}
+          <RoomBox x={335} y={175} width={112} depth={150} height={125} color="#e3e8e8" front="#c9d3d4" side="#b4c2c5" />
+          <div class="room-drawer-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+          <RoomBox x={221} y={174} z={148} width={90} depth={55} height={6} color="#81939f" front="#607686" side="#526b7c" />
+          <RoomBox x={254} y={190} z={154} width={22} depth={14} height={42} color="#a0b0bb" front="#718896" side="#607887" />
+          <div class="room-panel room-monitor" data-room-surface data-view-target="desk">
+            <section class="surface-ui monitor-ui" data-surface-ui aria-labelledby="monitor-heading">
+              <div class="monitor-bar"><span aria-hidden="true">● ● ●</span><span>hello, world.</span><span aria-hidden="true">↗</span></div>
+              <div class="monitor-profile"><span class="monitor-avatar" aria-hidden="true">G</span><div><h2 id="monitor-heading">{profile.name}</h2><p>{profile.role}</p></div></div>
+              <p class="monitor-note">アイデアを、動くかたちに。</p>
+              <button class="surface-link" type="button" data-open="profile">プロフィール / GitHub <span aria-hidden="true">↗</span></button>
+              <label class="monitor-input-label" for="room-note">この画面で入力を試す（保存なし）</label>
+              <input id="room-note" class="monitor-input" type="text" placeholder="Hello, world." maxlength="60" autocomplete="off" />
+            </section>
+          </div>
+          <div class="room-keyboard" aria-hidden="true"></div>
+          <div class="room-mouse" aria-hidden="true"></div>
+          <div class="room-mug" aria-hidden="true"><span></span></div>
+          <RoomBox x={182} y={385} z={70} width={145} depth={120} height={18} color="#3c6497" front="#264d7d" side="#1e426b" />
+          <RoomBox x={244} y={428} width={18} depth={18} height={70} color="#acb4b7" front="#7e8e96" side="#667d88" />
+          <RoomBox x={197} y={417} width={110} depth={12} height={8} color="#afbdc4" front="#8b9fa9" side="#6a838e" />
+          <div class="room-chair-back" aria-hidden="true"></div>
+          {projects.map((project, i) => (
+            <div class={`room-panel room-poster room-poster-${project.id}`} data-room-surface data-view-target="projects">
+              <section class={`surface-ui poster-ui poster-${project.id}`} data-surface-ui aria-labelledby={`poster-${project.id}`}>
+                <span class="poster-number">SELECTED WORK / 0{i + 1}</span>
+                <div class="poster-art" aria-hidden="true">{i === 0 ? <><span class="poster-house"></span><i></i><i></i></> : <><span class="poster-route"></span><i></i><i></i><i></i></>}</div>
+                <h2 id={`poster-${project.id}`}>{project.name}</h2>
+                <p class="poster-description">{project.summary}</p>
+                <span class="poster-status">{project.tags[0]}</span>
+                <button class="surface-link" type="button" data-open={project.id}>作品を見る <span aria-hidden="true">↗</span></button>
+              </section>
+            </div>
+          ))}
+          <RoomBox x={648} y={68} width={210} depth={105} height={105} color="#e1cba9" front="#ccb48e" side="#b49a77" />
+          <RoomBox x={665} y={82} z={105} width={91} depth={64} height={12} color="#8b9caf" front="#627b98" side="#536b85" />
+          <RoomBox x={671} y={85} z={117} width={85} depth={59} height={10} color="#eee4ce" front="#d9cdb6" side="#c9bba4" />
+          <div class="room-record" aria-hidden="true"><span></span></div>
+          <RoomBox x={563} y={320} z={100} width={240} depth={160} height={16} color="#dfc9a7" front="#bea17a" side="#aa8c69" />
+          {[{x:578,y:335},{x:772,y:335},{x:578,y:450},{x:772,y:450}].map(p => <RoomBox {...p} width={12} depth={12} height={100} color="#dfc9a7" front="#bea17a" side="#aa8c69" />)}
+          <div class="room-panel room-notebook" data-room-surface data-view-target="journal">
+            <section class="surface-ui notebook-ui" data-surface-ui aria-labelledby="notebook-heading"><span class="notebook-date">NOTES & LITTLE JOURNEYS</span><h2 id="notebook-heading">Journal<span aria-hidden="true">✳</span></h2><p>日々のメモと、<br />出かけた記録。</p><button class="surface-link" type="button" data-open="journal">ノートを開く <span aria-hidden="true">↗</span></button></section>
+          </div>
+          <div class="room-pencil" aria-hidden="true"></div>
+          <div class="room-plant" aria-hidden="true"><span class="plant-stem"></span><i></i><i></i><i></i><i></i><span class="plant-pot"></span></div>
+          <div class="room-floor-label" aria-hidden="true">GAKU / CREATIVE CORNER</div>
+        </div>
+        <p class="room-scene-hint" id="room-instructions">余白をドラッグで見回す · モニターやポスターをクリック</p>
+      </div>
+      <div class="room-dock" aria-label="部屋の表示操作" data-room-controls hidden>
+        <div class="room-view-buttons" role="group" aria-label="見る場所">
+          <button type="button" data-view="overview" aria-pressed="true"><span aria-hidden="true">⌂</span> 部屋全体</button>
+          <button type="button" data-view="desk" aria-pressed="false"><span aria-hidden="true">▣</span> デスク</button>
+          <button type="button" data-view="projects" aria-pressed="false"><span aria-hidden="true">▧</span> 作品</button>
+          <button type="button" data-view="journal" aria-pressed="false"><span aria-hidden="true">▤</span> ノート</button>
+        </div>
+        <div class="room-camera-buttons" role="group" aria-label="向きと拡大率">
+          <button type="button" data-camera="left" aria-label="左へ見回す">↶</button><button type="button" data-camera="right" aria-label="右へ見回す">↷</button>
+          <span class="dock-divider" aria-hidden="true"></span>
+          <button type="button" data-camera="out" aria-label="縮小">−</button><output data-room-zoom aria-label="拡大率">100%</output><button type="button" data-camera="in" aria-label="拡大">＋</button>
+          <button type="button" data-camera="reset" aria-label="向きと拡大率をリセット">⟲</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-caption"><p><span aria-hidden="true">✦</span> これは、つくることを楽しむための小さな展示室。実際の自室の再現ではありません。</p><p class="room-mode-label" data-render-status role="status">CSS 3D / HTML UI</p></div>
+    <noscript><p class="room-noscript">3Dの部屋はそのまま表示しています。視点変更・展示の説明を開くにはJavaScriptを有効にしてください。下のリンクから各ページも読めます。</p></noscript>
+    <section class="room-directory" aria-labelledby="room-directory-heading"><h2 id="room-directory-heading">部屋の案内</h2><p>展示の文章は選択・コピーできます。読みやすい通常のページもどうぞ。</p><div><a href="/about/">About <span>自分について ↗</span></a><a href="/projects/#iepita">いえぴた <span>作品の紹介 ↗</span></a><a href="/projects/#kokoiko">ここいこ <span>作品の紹介 ↗</span></a><a href="/journal/">Journal <span>日々の記録 ↗</span></a></div></section>
+    <details class="room-experiment"><summary>HTML-in-Canvasの実験について</summary><p>標準表示はCSSの3D空間に本物のHTMLを配置しています。対応ブラウザでは、同じHTMLをCanvasに描画する実験へ切り替えられます。文字の選択・入力・ボタン操作を試してみてください。</p><p>実験APIはまだ開発中です。Chrome Canary等で <code>chrome://flags/#canvas-draw-element</code> と、必要に応じて <code>chrome://flags/#enable-experimental-web-platform-features</code> を有効にしてブラウザを再起動します。通常の3D表示にフラグの変更は必要ありません。</p><button type="button" data-native-toggle disabled aria-pressed="false">HTML-in-Canvasを試す（対応状況を確認中）</button><p data-native-help>JavaScriptで利用できるAPIを確認します。</p><p><a href="https://github.com/WICG/html-in-canvas">APIの提案・最新の対応状況 ↗</a></p></details>
+    <dialog class="room-dialog" data-room-dialog aria-labelledby="room-dialog-heading">
+      <div class="room-dialog-top"><span>GAKU'S ROOM / EXHIBIT</span><button type="button" data-close-dialog aria-label="展示の説明を閉じる">閉じる <span aria-hidden="true">×</span></button></div>
+      <h2 id="room-dialog-heading" tabindex="-1">展示の説明</h2>
+      <div data-exhibit="profile" hidden><p class="room-detail-role">{profile.japaneseName} / {profile.role}</p><p>{profile.introduction}</p><ul class="room-socials">{profile.socials.map(social => <li><ResourceLink label={social.name} url={social.url} /></li>)}</ul><p class="room-detail-note">外部プロフィールのURLは準備中です。アカウント情報の自動取得は行っていません。</p><a class="room-detail-link" href="/about/">Aboutでもっと読む ↗</a></div>
+      {projects.map(project => <div data-exhibit={project.id} hidden><p class="room-detail-role">{project.format}</p><p>{project.description}</p><p class="room-detail-tags">{project.technologies}</p><p>{project.status}</p><p class="room-detail-note">作品画像・公開URLは準備中です。ポスターの図形は展示用の装飾です。</p><a class="room-detail-link" href={`/projects/#${project.id}`}>制作について詳しく読む ↗</a></div>)}
+      <div data-exhibit="journal" hidden><p>日々のメモと、出かけた記録。</p>{posts.length ? <ul class="room-journal-list">{posts.map(post => <li><time datetime={post.data.publishedAt}>{post.data.publishedAt}</time><a href={`/journal/${post.data.slug}/`}>{post.data.title} ↗</a></li>)}</ul> : <p class="room-journal-empty">Journalを準備中です。</p>}<a class="room-detail-link" href="/journal/">Journalをすべて見る ↗</a></div>
+    </dialog>
+  </div>
+  <script>import '../scripts/room'; import '../scripts/canvas-lab';</script>
+</BaseLayout>

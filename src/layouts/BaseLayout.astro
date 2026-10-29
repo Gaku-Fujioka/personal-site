@@ -1,0 +1,51 @@
+---
+import Header from '../components/Header.astro';
+import { navigation, profile } from '../data/profile';
+import '../styles/global.css';
+interface Props { title: string; description: string; type?: 'website' | 'article'; noindex?: boolean; }
+const { title, description, type = 'website', noindex = false } = Astro.props;
+const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const socialImage = Astro.site ? new URL('/og/site.png', Astro.site).href : '/og/site.png';
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#FAFAF8" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GF — Gaku Fujioka / 藤岡楽空のポートフォリオ" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <link rel="icon" type="image/svg+xml" href="/gaku.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/gaku-32.png" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へ移動</a>
+    <Header />
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="footer-wordmark" href="/">Gaku<span aria-hidden="true">.</span></a>
+        <nav aria-label="フッターナビゲーション">
+          <ul class="footer-nav">{navigation.map(({ label, href }) => <li><a href={href}>{label}</a></li>)}</ul>
+        </nav>
+        <small>© {profile.copyrightYear} Gaku Fujioka</small>
+      </div>
+    </footer>
+  </body>
+</html>

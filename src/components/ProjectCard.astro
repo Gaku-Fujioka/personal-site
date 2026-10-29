@@ -1,0 +1,16 @@
+---
+import type { Project } from '../data/projects';
+import ProjectVisual from './ProjectVisual.astro';
+import TechnologyLabel from './TechnologyLabel.astro';
+interface Props { project: Project; }
+const { project } = Astro.props;
+---
+<article class="project-card">
+  <ProjectVisual project={project} />
+  <div class="card-heading">
+    <h3><a class="project-title-link" href={`/projects/#${project.id}`}>{project.name}<span aria-hidden="true">→</span></a></h3>
+    <ul class="tags" aria-label="制作状況と技術">{project.tags.map((tag) => <li><TechnologyLabel name={tag} compact /></li>)}</ul>
+  </div>
+  <p class="card-description">{project.summary}</p>
+  <p class="card-caption">{project.caption}</p>
+</article>

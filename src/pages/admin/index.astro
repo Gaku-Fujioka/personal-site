@@ -1,0 +1,27 @@
+---
+// Kept separate from the public layout: the CMS supplies its own application UI.
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Journalの記事管理 | Gaku Fujioka</title>
+    <link rel="icon" href="/gaku.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/admin/admin.css" />
+    <script is:inline>window.CMS_MANUAL_INIT = true;</script>
+    <script is:inline src="/admin/admin.js" defer></script>
+  </head>
+  <body>
+    <section id="admin-intro" class="admin-intro" aria-labelledby="admin-title">
+      <p class="admin-mark" aria-hidden="true">GF</p>
+      <h1 id="admin-title">Journalの記事管理</h1>
+      <p id="admin-status" role="status">設定を確認しています。</p>
+      <button id="open-cms" type="button" hidden>記事の編集画面を開く</button>
+      <p><a href="/">Homeへ戻る</a></p>
+    </section>
+    <p id="local-notice" class="local-notice" hidden>ローカル確認用：保存しても公開サイトには反映されません。</p>
+  </body>
+</html>

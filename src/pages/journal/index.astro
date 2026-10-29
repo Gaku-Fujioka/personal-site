@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JournalEntry from '../../components/JournalEntry.astro';
+import JournalFilters from '../../components/JournalFilters.astro';
+import { getJournalPosts } from '../../lib/journal';
+const posts = await getJournalPosts();
+---
+<BaseLayout title="Journal | Gaku Fujioka — 藤岡楽空" description="日々のメモと、出かけた記録。藤岡楽空の備忘録・イベント参加記録・旅行などを綴るJournalです。">
+  <div class="container inner-page journal-page">
+    <header class="page-heading"><h1>Journal</h1><p>日々のメモと、出かけた記録。</p></header>
+    <JournalFilters posts={posts} />
+    {posts.length ? <div class="journal-list">{posts.map(post => <JournalEntry post={post} />)}</div> : <div class="journal-empty"><span class="empty-star" aria-hidden="true">✦</span><h2>Journalを準備中です。</h2><p>日々のメモや、イベント・旅行の記録を少しずつ綴っていきます。</p></div>}
+  </div>
+</BaseLayout>

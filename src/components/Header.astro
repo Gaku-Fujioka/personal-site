@@ -1,0 +1,16 @@
+---
+import { navigation } from '../data/profile';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="/" aria-label="Gaku — Home">Gaku<span aria-hidden="true">.</span></a>
+    <nav aria-label="メインナビゲーション">
+      <ul class="nav-list">
+        {navigation.map(({ label, href }) => (
+          <li><a href={href} aria-current={path === (href.replace(/\/$/, '') || '/') ? 'page' : href === '/journal/' && path.startsWith('/journal/') ? 'location' : undefined}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

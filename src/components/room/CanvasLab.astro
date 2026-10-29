@@ -1,0 +1,31 @@
+---
+import { profile } from '../../data/profile';
+---
+<section class="canvas-lab" id="canvas-lab" data-canvas-lab aria-labelledby="canvas-lab-title">
+  <div class="canvas-lab-heading"><div><p class="room-eyebrow">HTML-IN-CANVAS / LIVE EXPERIMENT</p><h2 id="canvas-lab-title">いつものHTMLが、光と奥行きの中へ。</h2><p>入力して、色を変えて、画面をほどいてみる。</p></div><span class="canvas-lab-badge" data-lab-status role="status">APIを確認中</span></div>
+  <div class="canvas-lab-layout">
+    <div>
+      <div class="canvas-lab-stage" data-lab-stage>
+        <span class="canvas-stage-label" aria-hidden="true">LIVE HTML · REAL INPUT · GPU LIGHT</span>
+        <div class="canvas-source-host" data-lab-source>
+          <section class="canvas-live-card" data-lab-card data-palette="blue" aria-labelledby="canvas-card-title">
+            <div class="canvas-card-top"><span>GAKU / INTERACTIVE CARD</span><span aria-hidden="true">✦</span></div>
+            <h3 id="canvas-card-title">{profile.name}</h3><p class="canvas-card-role">{profile.role}</p>
+            <p class="canvas-card-copy" data-lab-copy>アイデアを、動くかたちに。</p>
+            <label for="canvas-lab-input">この文章を変えてみる（保存なし）</label>
+            <input id="canvas-lab-input" type="text" maxlength="32" value="アイデアを、動くかたちに。" autocomplete="off" />
+            <div class="canvas-card-actions"><div role="group" aria-label="カードの色"><button type="button" data-lab-palette="blue" aria-pressed="true">青</button><button type="button" data-lab-palette="amber" aria-pressed="false">琥珀</button></div><button type="button" data-lab-count>✦ <span data-lab-count-value>0</span><span class="sr-only"> 回クリック。クリックして増やす</span></button></div>
+          </section>
+        </div>
+        <p class="canvas-stage-hint" data-lab-hint>APIの対応状況を確認しています。</p>
+      </div>
+      <div class="canvas-lab-controls">
+        <div role="group" aria-label="描画方法"><button type="button" data-lab-render="html" aria-pressed="true">元のHTML</button><button type="button" data-lab-render="gpu" aria-pressed="false" disabled>API + GPU</button></div>
+        <div role="group" aria-label="GPUの表現"><button type="button" data-lab-effect="live" aria-pressed="true" disabled>触る</button><button type="button" data-lab-effect="tiles" aria-pressed="false" disabled>ほどく</button><button type="button" data-lab-motion aria-pressed="false" disabled>動きを止める</button></div>
+      </div>
+    </div>
+    <aside class="canvas-lab-notes" aria-label="実験の楽しみ方"><p class="canvas-lab-note-number">01 — TYPE</p><p>入力欄と色ボタンは本物のHTML。変えた内容がGPUの画面にも反映されます。</p><p class="canvas-lab-note-number">02 — LIGHT</p><p>文字もボタンもひとつの画像素材になり、光がその上を流れます。</p><p class="canvas-lab-note-number">03 — UNFOLD</p><p>「ほどく」で40枚のタイルに。入力中の内容を保って、また元に戻せます。</p><dl><div><dt>描画</dt><dd data-lab-api>元のHTML</dd></div><div><dt>HTML → GPU 更新</dt><dd><output data-lab-uploads>0</output> 回</dd></div></dl></aside>
+  </div>
+  <p class="canvas-lab-message" data-lab-message>未対応の場合は元のHTMLを表示します。APIの効果と同じものとしては扱いません。</p>
+  <details class="canvas-lab-help"><summary>APIを有効にして試す方法・実験のしくみ</summary><p>この実験は <code>texElementSubImage2D()</code> 等でHTMLをGPUテクスチャへ直接転送します。CSSの傾きやスクリーンショット変換だけで再現しているものではありません。APIが動いているときは「APIでGPU描画中」と表示します。</p><p>ローカルでは <code>pnpm canvas:open</code> で、専用プロファイルのChromeを実験フラグ付きで開けます。普段のChromeとは別の設定です。Chromeが見つからない場合はREADMEを参照してください。</p><p>手動で試す場合は、対応するChrome等で <code>chrome://flags/#canvas-draw-element</code> と <code>chrome://flags/#enable-experimental-web-platform-features</code> を有効にし、再起動します。APIは開発中のため、ブラウザのバージョンによって動作が変わります。</p><p>「ほどく」は鑑賞モードです。タイルが分かれている間のフォーム操作は無効にし、「触る」で描画位置と操作位置を一致させます。動きを減らす設定では最初から静止します。</p><p>確認したChrome 155では入力欄の文字選択は動作しましたが、本文のドラッグ選択は動作しませんでした。文章を選択・コピーする場合は「元のHTML」へ切り替えてください。</p><p><a href="https://github.com/WICG/html-in-canvas">公式の提案・仕様を見る ↗</a></p></details>
+</section>

@@ -1,0 +1,38 @@
+{
+  "skills": {
+    "JavaScript": "/icons/skills/js.svg",
+    "CSS": "/icons/skills/css.svg",
+    "TypeScript": "/icons/skills/ts.svg",
+    "HTML": "/icons/skills/html.svg",
+    "React": "/icons/skills/react.svg",
+    "Vercel": "/icons/skills/vercel.svg",
+    "Supabase": "/icons/skills/supabase.svg",
+    "Next.js": "/icons/skills/nextjs.svg",
+    "Figma": "/icons/skills/figma.svg",
+    "Astro": "/icons/skills/astro.svg",
+    "Docker": "/icons/skills/docker.svg",
+    "Git": "/icons/skills/git.svg",
+    "VS Code": "/icons/skills/vscode.svg",
+    "C": "/icons/skills/c.svg",
+    "Ruby": "/icons/skills/ruby.svg",
+    "GitHub": "/icons/skills/github.svg",
+    "C++": "/icons/skills/cpp.svg"
+  },
+  "badges": {
+    "X": {
+      "src": "/icons/badges/x.svg",
+      "width": 52.25,
+      "height": 28
+    },
+    "Qiita": {
+      "src": "/icons/badges/qiita.svg",
+      "width": 84.25,
+      "height": 28
+    },
+    "GitHub": {
+      "src": "/icons/badges/github.svg",
+      "width": 95.5,
+      "height": 28
+    }
+  }
+}
