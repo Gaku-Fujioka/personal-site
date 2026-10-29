@@ -51,7 +51,7 @@ Web開発に取り組む中で制作した作品と、その背景や学びを�
 | スタイリング | CSS |
 | 記事 | Astro Content Collections / Markdown |
 | 画像処理 | sharp / WebP |
-| 記事編集 | Decap CMS（ローカル編集に対応。本番接続は未設定） |
+| 記事編集 | Decap CMS / GitHub OAuth（ローカル編集にも対応） |
 | ホスティング | Vercel / GitHub連携 |
 
 ### 実装で工夫していること
@@ -112,7 +112,7 @@ docs/                 運用手順・仕様書
 
 `main`へのpushでVercelが自動デプロイします。ビルド時に`pnpm build`と`pnpm check`を実行し、`dist/`を配信します。canonicalとOG画像のURLは、Vercelの本番URLから生成します。
 
-Journalは記事0件で公開しています。非公開の記事保存先とGitHub認証用の実装を用意し、[初回接続](docs/journal-setup.md)で認証情報と記事更新からのデプロイ連携を設定します。
+Journalは記事0件で公開しています。非公開の記事保存先・GitHub認証・記事更新からの自動ビルドを接続しています。接続設定と記事の書き方は [Journalの初回接続](docs/journal-setup.md) を参照してください。
 
 ## クレジット
 

@@ -63,9 +63,11 @@ URL未設定の項目は `null` にします。Homeの未設定SNSは非表示�
 
 写真はPNG / JPEG / WebP / AVIFの20MB以下に対応します。記事内で参照した写真だけを最大320 / 640 / 1280pxのWebPへ変換し、寸法・alt・説明・srcsetを生成します。本文には見出し・段落・リスト・引用・リンク・専用写真を使い、HTMLやスクリプトは含めません。
 
-## 本番CMSの接続（初回設定が必要）
+## 本番CMSの接続
 
 サイトは記事0件で公開中です。認証用のVercel Functionsと記事の非公開保存先を用意しています。画面上の登録値と操作手順は [Journalの初回接続](journal-setup.md) を参照してください。
+
+2026-10-29に本番の接続設定を完了しました。`JOURNAL_SOURCE=github` で非公開記事を取得するビルド、記事リポジトリのPublish JournalワークフローからDeploy Hook経由での本番ビルド、管理画面の有効化、GitHubへのログイン開始を確認済みです。本人による実際のログイン・記事保存・公開操作は初回確認が必要です。
 
 1. 本人用の**非公開**記事リポジトリ `Gaku-Fujioka/personal-site-journal` の `main` に、`posts/` と `media/` を用意しています。サイトのコードリポジトリとは分けます。
 2. GitHubのOAuthアプリを登録し、本人と記事リポジトリへのアクセスを設定します。認証は `api/auth.js` と `api/callback.js`、共通処理は `server/cms-oauth.mjs` です。

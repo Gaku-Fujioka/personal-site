@@ -4,6 +4,8 @@
 
 記事の保存先は非公開の `Gaku-Fujioka/personal-site-journal` です。公開サイトのコードとは分けています。
 
+**現在の状態（2026-10-29）**：手順1〜3の接続設定は完了し、`JOURNAL_SOURCE=github` での本番ビルドとDeploy Hookによる自動ビルドの起動を確認済みです。普段の執筆は「4. 接続後の使い方」から進めます。本人アカウントでの初回ログイン・保存・公開の実操作は、別途確認します。以下の初回設定手順は再設定時のために残しています。
+
 ## 1. GitHubログイン用のOAuthアプリ
 
 [GitHubでOAuthアプリを登録](https://github.com/settings/applications/new)し、以下を入力します。
