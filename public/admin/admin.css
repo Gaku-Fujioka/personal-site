@@ -7,3 +7,7 @@ body { margin: 0; background: #fafaf8; color: #242424; font: 16px/1.8 system-ui,
 .admin-intro :focus-visible { outline: 3px solid #2455a4; outline-offset: 4px; }
 .local-notice { position: fixed; z-index: 99999; inset: auto 0 0; margin: 0; padding: 8px 16px; background: #eaf0fa; color: #2455a4; font-size: 12px; border-top: 1px solid #7a879c; }
 .local-notice[hidden] { display: none; }
+/* These two fields have conditional requirements stated in their labels.
+   Decap otherwise appends an unconditional "optional" suffix. */
+label[for^="coverAlt-field-"] > span,
+label[for^="coverCaption-field-"] > span { display: none; }

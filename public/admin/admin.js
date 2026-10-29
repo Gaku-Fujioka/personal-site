@@ -31,12 +31,14 @@
         const h = window.h;
         const photoPattern = /^!\[([^\]\n]*)\]\((media\/[^\s)"\n]+)\s+"([^"\n]*)"\)$/m;
         const safeText = value => String(value ?? '').replace(/[\[\]"<>\n]/g, '');
+        const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)
+          && Number.isFinite(Date.parse(`${value}T00:00:00Z`)) && new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) === value;
         CMS.registerEditorComponent({
           id: 'journal-photo', label: '写真と説明',
           fields: [
-            { name: 'image', label: '写真', widget: 'image', allow_multiple: false },
-            { name: 'alt', label: '写真の内容（alt）', widget: 'string' },
-            { name: 'caption', label: '表示する短い説明', widget: 'string' },
+            { name: 'image', label: '写真【必須】', hint: 'PNG・JPEG・WebP・AVIFを選んでください。', widget: 'image', required: true, allow_multiple: false },
+            { name: 'alt', label: '写真の内容【必須】', hint: '写真が見えない場合にも伝わるよう、写っている内容を記入します。', widget: 'string', required: true, pattern: ['\\S', '写真の内容を入力してください。'] },
+            { name: 'caption', label: '表示する短い説明【必須】', hint: '写真の下に表示する説明を記入します。', widget: 'string', required: true, pattern: ['\\S', '写真の短い説明を入力してください。'] },
           ],
           pattern: photoPattern,
           fromBlock: match => ({ image: match[2], alt: match[1], caption: match[3] }),
@@ -77,9 +79,17 @@
         CMS.registerPreviewTemplate('journal', Preview);
         CMS.registerEventListener({ name: 'preSave', handler: ({ entry }) => {
           const data = entry.get('data');
+          for (const [name, label] of [['title', 'タイトル'], ['slug', 'URL識別子'], ['publishedAt', '投稿日'], ['body', '本文']]) {
+            if (typeof data.get(name) !== 'string' || !data.get(name).trim()) throw new Error(`「${label}」は必須です。入力してから保存してください。`);
+          }
           const slug = data.get('slug');
           if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug || '') || ['tags', 'index'].includes(slug)) throw new Error('URL識別子は半角英小文字・数字・ハイフンで指定してください。');
           if (entry.get('path') && entry.get('path') !== `posts/${slug}.md`) throw new Error('作成済み記事のURL識別子は変更しないでください。');
+          const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date());
+          const publishedAt = data.get('publishedAt');
+          if (!validDate(publishedAt) || publishedAt > today) throw new Error('投稿日は今日までの有効な日付を指定してください。予約公開には対応していません。');
+          const updatedAt = data.get('updatedAt');
+          if (updatedAt && (!validDate(updatedAt) || updatedAt < publishedAt || updatedAt > today)) throw new Error('更新日は投稿日から今日までの有効な日付を指定するか、空欄にしてください。');
           if (data.get('cover') && (!String(data.get('coverAlt') ?? '').trim() || !String(data.get('coverCaption') ?? '').trim())) {
             throw new Error('カバー画像を使う場合は「カバー画像の内容」と「カバー画像の短い説明」を入力してから保存してください。');
           }
@@ -100,16 +110,16 @@
             identifier_field: 'slug', slug: '{{slug}}', extension: 'md', format: 'yaml-frontmatter',
             summary: '{{title}} — {{publishedAt}}', sortable_fields: ['publishedAt', 'title'],
             fields: [
-              { name: 'title', label: 'タイトル', widget: 'string' },
-              { name: 'slug', label: 'URL識別子（作成後は固定）', widget: 'string', pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', '半角英小文字・数字・ハイフン'] },
-              { name: 'publishedAt', label: '投稿日（公開前に確認）', widget: 'datetime', default: new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date()), date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD', picker_utc: true },
-              { name: 'updatedAt', label: '更新日（YYYY-MM-DD・変更したときだけ）', widget: 'string', pattern: ['^$|^\\d{4}-\\d{2}-\\d{2}$', 'YYYY-MM-DDの形で入力'], ...optional },
+              { name: 'title', label: 'タイトル【必須】', widget: 'string', required: true, pattern: ['\\S', 'タイトルを入力してください。'] },
+              { name: 'slug', label: 'URL識別子【必須・作成後は固定】', hint: '例：hello / website-launch。半角英小文字・数字・ハイフンを使います。保存後は変更できません。', widget: 'string', required: true, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', '半角英小文字・数字・ハイフン'] },
+              { name: 'publishedAt', label: '投稿日【必須】', hint: '今日までの日付を指定してください。未来の日付での予約公開には対応していません。', widget: 'datetime', required: true, default: new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date()), date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD', picker_utc: true },
+              { name: 'updatedAt', label: '更新日（変更したときだけ）', hint: '指定する場合は、投稿日から今日までの日付をYYYY-MM-DDの形で入力してください。', widget: 'string', pattern: ['^$|^\\d{4}-\\d{2}-\\d{2}$', 'YYYY-MM-DDの形で入力'], ...optional },
               { name: 'description', label: '概要（省略時は本文冒頭を使用）', widget: 'text', ...optional },
               { name: 'tags', label: 'タグ', widget: 'select', multiple: true, options: [{ label: '備忘録', value: 'memo' }, { label: 'イベント', value: 'events' }, { label: '旅行', value: 'travel' }], ...optional },
-              { name: 'cover', label: 'カバー写真', widget: 'image', allow_multiple: false, ...optional },
-              { name: 'coverAlt', label: 'カバー画像の内容（画像を使う場合は必須）', hint: '画像に何が写っているかを記入します。カバー画像を使わない場合のみ空欄で構いません。', widget: 'string', ...optional },
-              { name: 'coverCaption', label: 'カバー画像の短い説明（画像を使う場合は必須）', hint: '画像の下に表示する説明です。カバー画像を使わない場合のみ空欄で構いません。', widget: 'string', ...optional },
-              { name: 'body', label: '本文', widget: 'richtext', modes: ['rich_text'], buttons: ['bold', 'italic', 'link', 'heading-two', 'heading-three', 'quote', 'bulleted-list', 'numbered-list'], editor_components: ['journal-photo'], sanitize_preview: true },
+              { name: 'cover', label: 'カバー画像', hint: '画像を設定した場合は、下の「内容」と「短い説明」も必須です。PNG・JPEG・WebP・AVIFに対応します。', widget: 'image', allow_multiple: false, ...optional },
+              { name: 'coverAlt', label: 'カバー画像の内容【画像を使う場合は必須】', hint: '画像に何が写っているかを記入します。カバー画像を使わない場合のみ空欄で構いません。', widget: 'string', ...optional },
+              { name: 'coverCaption', label: 'カバー画像の短い説明【画像を使う場合は必須】', hint: '画像の下に表示する説明です。カバー画像を使わない場合のみ空欄で構いません。', widget: 'string', ...optional },
+              { name: 'body', label: '本文【必須】', hint: '本文を入力してください。本文に写真を追加するときは「写真と説明」を使い、写真の内容と短い説明も入力します。', widget: 'richtext', required: true, modes: ['rich_text'], buttons: ['bold', 'italic', 'link', 'heading-two', 'heading-three', 'quote', 'bulleted-list', 'numbered-list'], editor_components: ['journal-photo'], sanitize_preview: true },
             ],
           }],
         };
